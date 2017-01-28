@@ -1,0 +1,23 @@
+{
+  "name": "ubchack",
+  "version": "1.0.0",
+  "description": "UBC LAVA hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justin0022/UBCHack.git"
+  },
+  "keywords": [
+    "hackathon",
+    "ubc"
+  ],
+  "author": "Justin, Shirley, Anh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/justin0022/UBCHack/issues"
+  },
+  "homepage": "https://github.com/justin0022/UBCHack#readme"
+}
