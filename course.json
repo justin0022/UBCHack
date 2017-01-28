@@ -1,0 +1,36 @@
+{
+    "course": "Climate Change: The Science",
+    "element_order": 1,
+    "chapters": [
+        {
+            "name": "About Climate Change: The Science",
+            "element_order": 2,
+            "url_name": "6525a2d9e64b46f5ac383337c47fa49e",
+            "parent": "Climate_Change_The_Science",
+            "sequential": [
+                {
+                    "name": "Welcome",
+                    "element-order": 3,
+                    "url_name": "910899f49ac74841a54721b29ab354df",
+                    "parent": "6525a2d9e64b46f5ac383337c47fa49e",
+                    "vertical": [
+                        {
+                            "name": "About Climate Change: The Science",
+                            "element_order": 4,
+                            "url_name": "6e88d64408964840b44333c44703a95c",
+                            "parent": "910899f49ac74841a54721b29ab354df",
+                            "html": [
+                                {
+                                    "name": "About Climate Change: The Science",
+                                    "element_order": 5,
+                                    "url_name": "f5c431c18c7048df89cec1cb334c6ac8",
+                                    "parent": "6e88d64408964840b44333c44703a95c"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
