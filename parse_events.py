@@ -1,12 +1,11 @@
 import json
 import pickle
 
-
-def parse_event_data(verticals_dict):
+def parse_event_data(chapters_dict, sequentials_dict, verticals_dict):
     users = pickle.load(open("users.pickled", "r"))
 
-    with open("data.json") as json_file:
-        json_data = json.load(json_file)
+    f = open("data.json", "r").read()
+    obj = json.loads(f)
         
     # stores the number of times a vertical gets a "hit" in list of dictionaries,
     # i.e. [{"vertical_id": a7315890a40a4877913564af13fcdf5e", "hits": 5},
@@ -32,8 +31,33 @@ def parse_event_data(verticals_dict):
             if not hitBool:
                 vertical_id_hit_list.append({"vertical_id": vertical_id, "hit": 1})
             
-    print vertical_id_hit_list
-        # exit()
+    for vertical_id_hit in vertical_id_hit_list:
+        vertical_id = vertical_id_hit["vertical_id"]
+        sequential_id = sequentials_dict.get(vertical_id)
+        print("sequential_id", sequential_id)
+        if not sequential_id:
+            continue
+
+        chapter_id = chapters_dict.get(sequential_id)
+        print("chapter_id", chapter_id)
+        if not chapter_id:
+            continue
+
+        chapters_list = obj["children"]
+        target_chapter = [chapter for chapter in chapters_list if chapter["url_name"] == chapter_id][0]
+
+        sequentials_list = target_chapter["children"]
+        target_sequential = [s for s in sequentials_list if s["url_name"] == sequential_id][0]
+
+        verticals_list = target_sequential["children"]
+        target_vertical = [v for v in verticals_list if v["url_name"] == vertical_id][0]
+
+        target_vertical["hit"] = vertical_id_hit["hit"]
+
+        #print target_vertical
+    json_obj = json.dumps(obj)
+    fout = open("data_with_vertical_hits.json", "w")
+    fout.write(json_obj)
 
 def parse_course_structure():
 
@@ -99,7 +123,7 @@ def main():
     sequentials_dict = generate_sequentials(course_structure)
     chapters_dict = generate_chapters(course_structure)
 
-    parse_event_data(verticals_dict)
+    parse_event_data(chapters_dict, sequentials_dict, verticals_dict)
 
 if __name__ == '__main__':
     main()
