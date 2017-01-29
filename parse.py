@@ -91,6 +91,8 @@ def generate_json_object(course_data, user_data):
 
             vertical["children"].append({"category": row["category"], "name": row["name"], "element_order": row["element_order"], "url_name": row["url_name"], "parent": row["parent"]})
     
+
+    vertical_actions = []
     for row in user_data:
         if row["event_type"] == "seq_goto" or row["event_type"] == "seq_next":
             event = row["event"]
@@ -104,14 +106,9 @@ def generate_json_object(course_data, user_data):
             target_vertical = event_dict["new"]
             target_sequential_id = event_dict["id"].split("@", 2)[2]
 
-            vertical_actions = []
-
             vertical_actions.append({"vertical_number": target_vertical, "target_sequential_id": target_sequential_id})
-            print vertical_actions
-            
-            # print events["new"]
 
-            exit()
+    print vertical_actions
 
     json_obj = json.dumps(final_dict)
 
