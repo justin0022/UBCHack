@@ -203,7 +203,7 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
     fout.write(json_obj)
 
 
-def sum_levels_engagement():
+def sum_levels_time():
 
     f = open("data_with_durations.json", "r").read()
     obj = json.loads(f)
@@ -226,6 +226,33 @@ def sum_levels_engagement():
     json_obj = json.dumps(obj)
 
     fout = open("data_with_durations_multilevel.json", "w")
+    fout.write(json_obj)
+
+
+
+def sum_levels_engagement():
+
+    f = open("data_with_vertical_hits.json", "r").read()
+    obj = json.loads(f)
+
+    chapters = obj["children"]
+    for chapter in chapters:
+        sequentials = chapter["children"]
+        for sequential in sequentials:
+            verticals = sequential["children"]
+            s_hits = [v.get("hit", 0) for v in verticals]
+            s_hits_sum = sum(s_hits)
+            if s_hits_sum > 0:
+                sequential["hit"] = s_hits_sum
+
+        c_hits = [s.get("hit", 0) for s in sequentials]
+        c_hits_sum = sum(c_hits)
+        if c_hits_sum > 0:
+            chapter["hit"] = c_hits_sum
+
+    json_obj = json.dumps(obj)
+
+    fout = open("data_with_vertical_hits_multilevel.json", "w")
     fout.write(json_obj)
 
 
