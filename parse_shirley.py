@@ -203,6 +203,31 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
     fout.write(json_obj)
 
 
+def sum_levels_engagement():
+
+    f = open("data_with_durations.json", "r").read()
+    obj = json.loads(f)
+
+    chapters = obj["children"]
+    for chapter in chapters:
+        sequentials = chapter["children"]
+        for sequential in sequentials:
+            verticals = sequential["children"]
+            s_durations = [v.get("duration", 0) for v in verticals]
+            s_durations_sum = sum(s_durations)
+            if s_durations_sum > 0:
+                sequential["duration"] = s_durations_sum
+
+        c_durations = [s.get("duration", 0) for s in sequentials]
+        c_durations_sum = sum(c_durations)
+        if c_durations_sum > 0:
+            chapter["duration"] = c_durations_sum
+
+    json_obj = json.dumps(obj)
+
+    fout = open("data_with_durations_multilevel.json", "w")
+    fout.write(json_obj)
+
 
 def generate_verticals(data):
     """
@@ -287,17 +312,17 @@ def generate_json_object(data):
 
 def main():
 
-    course_structure = parse_course_structure()
-    verticals_dict = generate_verticals(course_structure)
-    sequentials_dict = generate_sequentials(course_structure)
-    chapters_dict = generate_chapters(course_structure)
+    # course_structure = parse_course_structure()
+    # verticals_dict = generate_verticals(course_structure)
+    # sequentials_dict = generate_sequentials(course_structure)
+    # chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
+    # parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
     
     # generate_json_object(course_structure)
 
-
+    sum_levels_engagement()
 
 
 
