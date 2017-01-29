@@ -26,7 +26,7 @@
         <h2>Filter by</h2>
         <div class="button-wrap">
             <button class="engagement-button active" type="button" onclick="showTree1()">Engagement</button>
-            <p>Engagement measures how many events happened on each page. Bigger circles means more engagement, and no circles means there was no data. Events are interactions with videos and quiz problems.</p>
+            <p>Engagement measures how many events happened on each page. Bigger circles means more engagement, and no circles means there was no data.</p>
         </div>
         <div class="button-wrap">
             <button class="duration-button" type="button" onclick="showTree2()">Time Spent</button>
@@ -46,20 +46,31 @@
     </div>
      <div class="content">
         <h2>Methodology</h2> 
-        <p>Engagement measures events</p>
+            <p>We created two data structures for easy lookup:</p>
+            <ul>
+                <li>One representing the course information (from course-axis.tsv)</li>
+                <li>One containing user events (from tracklog_cleaned.tsv)</li>
+            </ul>
+            <p>We mainly needed the timestamp, user ID, and vertical/element ID.</p>
+            <p>For the <strong>engagement</strong> tree, we counted how many events happened on each page/section/module. Events include interactions with videos (eg. playing, pausing, skipping) and quiz problems (eg. checking, saving). </p>
+            <p>For the <strong>time spent</strong> tree, we found the average time spent on each page/section/module by taking the sum of time deltas between consecutive events and dividing that by the number of users. We used a 30 minute threshold to account for idling users, which was determined by plotting a histogram of time durations.</p>
+            <p>We didn't include the navigation elements (page_close, seq_goto, seq_next, seq_prev).</p>
         <h2>Caveats</h2> 
-        <p>Module section data is missing page load info</p>
-        <h2>Suggestions</h2> 
-        <p>something else</p>
+        <p><strong>Missing data:</strong> Most notably, we are missing page load data. While there is navigation event data (eg. moving between pages via the navigation bar), this data is flawed and difficult to parse because it does not contain page IDs. Also, the data does not capture navigation between sections. As a result, the first and last pages in each section would be underrepresented.</p>
     </div>
     <div class="content">
         <h2>Tools used</h2>
         <ul class="tools">
-            <li>d3 tree</li>
-            <li>subtlepatterns</li>
-            <li>jquery</li>
+            <li>python</li>
+            <li>d3</li>
+            <li>javascript/jquery</li>
+            <li>json</li>
             <li>sass</li>
         </ul>
+    </div>
+    <div class="content">
+        <h2>License</h2>
+        <p>Released under the <a href="https://opensource.org/licenses/GPL-3.0">GNU General Public License, version 3</a>.</p>
     </div>
     </main>
     <script>
