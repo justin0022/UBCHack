@@ -154,6 +154,18 @@ def generate_verticals(data):
     return final_dict
 
 
+def generate_chapters(data):
+    final_dict = {}
+
+    for row in data:
+        if row["category"] in ["sequential"]:
+            chapter_id = row["parent"]
+            final_dict[row["url_name"]] = chapter_id
+
+    print(final_dict)
+    return final_dict
+
+
 def generate_json_object(data):
     
     final_dict = {}
@@ -194,9 +206,10 @@ def main():
 
     course_structure = parse_course_structure()
     verticals_dict = generate_verticals(course_structure)
+    chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    time_data = parse_time_data()
+    # time_data = parse_time_data()
     
     # generate_json_object(course_structure)
 
