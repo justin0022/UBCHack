@@ -132,7 +132,7 @@ def parse_user_data(verticals):
     pickle.dump(users, open("users.pickled", "w"))
 
 
-def parse_time_data(chapters_dict, verticals_dict):
+def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
     users = pickle.load(open("users.pickled", "r"))
     
     # for row in users["1"]:
@@ -168,14 +168,35 @@ def parse_time_data(chapters_dict, verticals_dict):
             duration_s = duration[1]
 
             print("elem_id", elem_id)
-            vertical_id = verticals_dict[elem_id]
+            vertical_id = verticals_dict.get(elem_id)
             print("vertical_id", vertical_id)
-            chapter_id = chapters_dict[vertical_id]
+            if not vertical_id:
+                continue
 
-            if "duration" in obj[chapter_id][vertical_id]:
-                obj[chapter_id][vertical_id]["duration"] += duration_s
+            sequential_id = sequentials_dict.get(vertical_id)
+            print("sequential_id", sequential_id)
+            if not sequential_id:
+                continue
+
+            chapter_id = chapters_dict.get(sequential_id)
+            print("chapter_id", chapter_id)
+            if not chapter_id:
+                continue
+
+            chapters_list = obj["children"]
+            target_chapter = [chapter for chapter in chapters_list if chapter["url_name"] == chapter_id][0]
+
+            sequentials_list = target_chapter["children"]
+            target_sequential = [s for s in sequentials_list if s["url_name"] == sequential_id][0]
+
+            verticals_list = target_sequential["children"]
+            target_vertical = [v for v in verticals_list if v["url_name"] == vertical_id][0]
+
+
+            if "duration" in target_vertical:
+                target_vertical["duration"] += duration_s
             else:
-                obj[chapter_id][vertical_id]["duration"] = duration_s
+                target_vertical["duration"] = duration_s
 
     json_obj = json.dumps(obj)
 
