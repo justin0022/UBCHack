@@ -18,16 +18,13 @@ def parse_event_data(chapters_dict, sequentials_dict, verticals_dict):
             #print event_id
             vertical_id = verticals_dict.get(event_id)
             #print vertical_id
-
             if not vertical_id:
                 continue
-
             hitBool  = 0
             for vertical_id_hit in vertical_id_hit_list:
                 if vertical_id_hit["vertical_id"] == vertical_id:
                     vertical_id_hit["hit"] += 1
                     hitBool = 1
-            
             if not hitBool:
                 vertical_id_hit_list.append({"vertical_id": vertical_id, "hit": 1})
             

@@ -1,3 +1,5 @@
 # UBCHack
 Doing some learning analytics
 ====================================
+
+Released under the [GNU General Public License, version 3](https://opensource.org/licenses/GPL-3.0)
