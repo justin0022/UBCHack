@@ -41,6 +41,14 @@ body {
 		z-index: -1;
 	}
 }
+a {
+	color: lighten($accent, 20%);
+	transition: .2s ease-out;
+	text-decoration: none;
+	&:hover {
+		color: lighten($accent, 30%);
+	}
+}
 h1,
 h2 {
 	letter-spacing: 2px;
@@ -81,7 +89,7 @@ header {
 .content {
 	border: 1px solid $accent;
 	padding: 20px 30px;
-	width: 900px;
+	width: 960px;
 	box-sizing: border-box;
 	margin-left: auto;
 	margin-right: auto;
@@ -94,10 +102,10 @@ header {
 }
 .button-wrap {
 	float: left;
-	width: calc(50% - 10px);
+	width: calc(50% - 20px);
 	margin-top: 10px;
 	&:not(last-of-type) {
-		margin-right: 10px;
+		margin-right: 20px;
 	}
 }
 p { 
@@ -131,6 +139,7 @@ button {
 }
 .viz-title {
 	text-align: center;
+	margin-top: 40px;
 }
 .stats {
 	list-style: none;
@@ -149,6 +158,11 @@ button {
 }
 .stat-count {
 	font-weight: 700;
+}
+svg {
+	overflow: visible;
+	margin-left: 50px;
+	padding-left: 100px;
 }
 .node {
   cursor: pointer;

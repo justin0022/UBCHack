@@ -39,6 +39,17 @@ body::after {
 }
 
 /* line 44, ../../sass/sass/screen.scss */
+a {
+  color: #61c4de;
+  transition: .2s ease-out;
+  text-decoration: none;
+}
+/* line 48, ../../sass/sass/screen.scss */
+a:hover {
+  color: #8bd4e7;
+}
+
+/* line 52, ../../sass/sass/screen.scss */
 h1,
 h2 {
   letter-spacing: 2px;
@@ -46,37 +57,37 @@ h2 {
   font-weight: 300;
 }
 
-/* line 50, ../../sass/sass/screen.scss */
+/* line 58, ../../sass/sass/screen.scss */
 h1 {
   margin: 0;
   line-height: 1;
 }
 
-/* line 54, ../../sass/sass/screen.scss */
+/* line 62, ../../sass/sass/screen.scss */
 h2 {
   font-size: 1.5em;
   margin: 20px 0 0;
 }
 
-/* line 58, ../../sass/sass/screen.scss */
+/* line 66, ../../sass/sass/screen.scss */
 main {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
 }
 
-/* line 63, ../../sass/sass/screen.scss */
+/* line 71, ../../sass/sass/screen.scss */
 header {
   text-align: center;
   margin: 40px 0 20px;
 }
 
-/* line 67, ../../sass/sass/screen.scss */
+/* line 75, ../../sass/sass/screen.scss */
 .event-title {
   font-size: 5em;
 }
 
-/* line 70, ../../sass/sass/screen.scss */
+/* line 78, ../../sass/sass/screen.scss */
 .event-subtitle {
   font-weight: 300;
   text-transform: uppercase;
@@ -85,23 +96,23 @@ header {
   margin-bottom: 10px;
 }
 
-/* line 77, ../../sass/sass/screen.scss */
+/* line 85, ../../sass/sass/screen.scss */
 .event-info {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-/* line 81, ../../sass/sass/screen.scss */
+/* line 89, ../../sass/sass/screen.scss */
 .content {
   border: 1px solid #2596b4;
   padding: 20px 30px;
-  width: 900px;
+  width: 960px;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
 }
-/* line 89, ../../sass/sass/screen.scss */
+/* line 97, ../../sass/sass/screen.scss */
 .content::after {
   /* clearfix */
   content: "";
@@ -109,23 +120,23 @@ header {
   clear: both;
 }
 
-/* line 95, ../../sass/sass/screen.scss */
+/* line 103, ../../sass/sass/screen.scss */
 .button-wrap {
   float: left;
-  width: calc(50% - 10px);
+  width: calc(50% - 20px);
   margin-top: 10px;
 }
-/* line 99, ../../sass/sass/screen.scss */
+/* line 107, ../../sass/sass/screen.scss */
 .button-wrap:not(last-of-type) {
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
-/* line 103, ../../sass/sass/screen.scss */
+/* line 111, ../../sass/sass/screen.scss */
 p {
   margin-top: 0;
 }
 
-/* line 106, ../../sass/sass/screen.scss */
+/* line 114, ../../sass/sass/screen.scss */
 button {
   background: none;
   border: 1px solid #2596b4;
@@ -140,29 +151,30 @@ button {
   cursor: pointer;
   margin-bottom: 10px;
 }
-/* line 119, ../../sass/sass/screen.scss */
+/* line 127, ../../sass/sass/screen.scss */
 button:hover, button:focus {
   background: #1c738a;
   border: 1px solid #1c738a;
 }
-/* line 123, ../../sass/sass/screen.scss */
+/* line 131, ../../sass/sass/screen.scss */
 button:active {
   background: #186175;
   border: 1px solid #186175;
 }
 
-/* line 128, ../../sass/sass/screen.scss */
+/* line 136, ../../sass/sass/screen.scss */
 .active {
   background: #1c738a;
   border: 1px solid #1c738a;
 }
 
-/* line 132, ../../sass/sass/screen.scss */
+/* line 140, ../../sass/sass/screen.scss */
 .viz-title {
   text-align: center;
+  margin-top: 40px;
 }
 
-/* line 135, ../../sass/sass/screen.scss */
+/* line 144, ../../sass/sass/screen.scss */
 .stats {
   list-style: none;
   margin: 0 0 20px;
@@ -172,45 +184,48 @@ button:active {
   letter-spacing: 1px;
   font-weight: 300;
 }
-/* line 143, ../../sass/sass/screen.scss */
+/* line 152, ../../sass/sass/screen.scss */
 .stats li {
   display: inline-block;
 }
-/* line 145, ../../sass/sass/screen.scss */
+/* line 154, ../../sass/sass/screen.scss */
 .stats li:not(last-of-type) {
   margin-right: 60px;
 }
 
-/* line 150, ../../sass/sass/screen.scss */
+/* line 159, ../../sass/sass/screen.scss */
 .stat-count {
   font-weight: 700;
 }
 
-/* line 153, ../../sass/sass/screen.scss */
+/* line 162, ../../sass/sass/screen.scss */
+svg {
+  overflow: visible;
+  margin-left: 50px;
+  padding-left: 100px;
+}
+
+/* line 167, ../../sass/sass/screen.scss */
 .node {
   cursor: pointer;
 }
 
-/* line 156, ../../sass/sass/screen.scss */
+/* line 170, ../../sass/sass/screen.scss */
 .node circle {
   fill: #fff;
   stroke: #2596b4;
   stroke-width: 1.5px;
 }
 
-/* line 161, ../../sass/sass/screen.scss */
+/* line 175, ../../sass/sass/screen.scss */
 .node text {
   font-size: 16px;
   fill: #fff;
 }
 
-/* line 165, ../../sass/sass/screen.scss */
+/* line 179, ../../sass/sass/screen.scss */
 .link {
   fill: none;
   stroke: #2596b4;
   stroke-width: 1.5px;
-}
-svg {
-  margin-left: 50px;
-  padding-left: 100px;
 }
