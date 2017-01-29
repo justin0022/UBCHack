@@ -167,20 +167,19 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
             elem_id = duration[0]
             duration_s = duration[1]
 
-            print("elem_id", elem_id)
             vertical_id = verticals_dict.get(elem_id)
-            print("vertical_id", vertical_id)
             if not vertical_id:
+                print("vertical_id", vertical_id, "elem_id", elem_id)
                 continue
 
             sequential_id = sequentials_dict.get(vertical_id)
-            print("sequential_id", sequential_id)
             if not sequential_id:
+                print("sequential_id", sequential_id, "vertical_id", vertical_id, "elem_id", elem_id)
                 continue
 
             chapter_id = chapters_dict.get(sequential_id)
-            print("chapter_id", chapter_id)
             if not chapter_id:
+                print("chapter_id", chapter_id, "sequential_id", sequential_id, "vertical_id", vertical_id, "element id", elem_id)
                 continue
 
             chapters_list = obj["children"]
