@@ -80,13 +80,13 @@ $( document ).ready(function() {
     nodeUpdate.select("circle")
         .attr("r", function(d) { 
             if (d.hit && d.category === "vertical") {
-                return d.hit/7500;
+                return d.hit/6000;
             } 
             if (d.hit && d.category === "sequential") {
-                return d.hit/7500;
+                return d.hit/6000;
             }
             if (d.hit && d.category === "chapter") {
-                return d.hit/7500;
+                return d.hit/6000;
             }
             if (d.category === "vertical") {
                 return 1e-6;

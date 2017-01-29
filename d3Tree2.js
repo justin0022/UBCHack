@@ -78,13 +78,13 @@ $( document ).ready(function() {
     nodeUpdate.select("circle")
         .attr("r", function(d) { 
             if (d.duration && d.category === "vertical") {
-                    return d.duration/100000;
+                    return d.duration/150;
                 } 
             if (d.duration && d.category === "sequential") {
-                return d.duration/100000;
+                return d.duration/150;
             } 
             if (d.duration && d.category === "chapter") {
-                return d.duration/100000;
+                return d.duration/150;
             } 
             if (d.category === "vertical") {
                 return 1e-6;
