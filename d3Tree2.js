@@ -76,8 +76,14 @@ $( document ).ready(function() {
         .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
     nodeUpdate.select("circle")
-        .attr("r", 4.5)
-        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; });
+        .attr("r", function(d) { return d.duration ? d.duration/100000 : 4.5})
+        .style("fill", function(d) 
+            { 
+                if (!d.duration && d.category === "vertical") {
+                    return "#c61b00";
+                } else 
+                return d._children ? "#186175" : "#fff"; 
+            });
 
     nodeUpdate.select("text")
         .style("fill-opacity", 1);
