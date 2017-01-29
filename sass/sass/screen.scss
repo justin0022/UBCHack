@@ -1,0 +1,114 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+/*
+@import "compass/reset";
+*/
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700');
+$font-stack: 'Source Sans Pro', Arial, sans-serif;
+$background: #242C39;
+$accent: #2596b4;
+
+
+body {
+	background: $background;
+	color: #fff;
+	font-family: $font-stack;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	margin: 0;
+	&::before {
+		content: ('');
+		background: $accent;
+		width: 100%;
+		height: 4px;
+		display: block;
+	}
+	&::after {
+		content: ('');
+		background-image: url('../../squares.png');
+		background-attachment: fixed;
+		opacity: 0.2;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		position: fixed;
+		z-index: -1;
+	}
+}
+h1,
+h2 {
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-weight: 300;
+	margin: 0;
+}
+h1 {
+	font-size: 4em;
+}
+h2 {
+	font-size: 1.5em;
+}
+main {
+	width: 1280px;
+	margin-left: auto;
+	margin-right: auto;
+}
+header {
+	text-align: center;
+	margin: 20px 0;
+}
+.event-date {
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.filters {
+	border: 1px solid $accent;
+	padding: 30px;
+	width: 400px;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+}
+button {
+	background: none;
+	border: 1px solid $accent;
+	padding: 7px 12px;
+	font-family: $font-stack;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	font-size: .9em;
+	color: #fff;
+	transition: .2s ease-out;
+	cursor: pointer;
+	&:hover, &:focus {
+		background: darken($accent, 10%);
+		border: 1px solid darken($accent, 10%);
+	}
+	&:active {
+		background: darken($accent, 15%);
+		border: 1px solid darken($accent, 15%);
+	}
+}
+.node {
+  cursor: pointer;
+}
+.node circle {
+  fill: #fff;
+  stroke: darken($accent, 15%);
+  stroke-width: 1.5px;
+}
+.node text {
+  font-size: 14px;
+  fill: #fff;
+}
+.link {
+  fill: none;
+  stroke: darken($accent, 15%);
+  stroke-width: 1.5px;
+}

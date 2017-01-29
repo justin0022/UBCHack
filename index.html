@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Learning Analytics Hackathon 2.0</title>
     <script src="./index.js"></script>
-    <link rel="stylesheet" href="./styles.css">
+    <!--<link rel="stylesheet" href="./styles.css">-->
+    <link href="stylesheets/sass/screen.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.0/d3.js"></script>
 </head>
 <body>
+    <main>
+    <header>
+        <h1>Learning Analytics Hackathon 2.0</h1>
+        <div class="event-date">January 28–29, 2017</div>
+        <p>Justin Lee, Anh Nguyen, Shirley Yin</p>
+    </header>
+    <div class="filters">
+        <h2>Filters</h2>
+        <button type="button">Engagement</button>
+        <button type="button">Time Spent</button>
+    </div>
     <script>
         var margin = {top: 20, right: 120, bottom: 20, left: 120},
-        width = 960 - margin.right - margin.left,
+        width = 1280 - margin.right - margin.left,
         height = 800 - margin.top - margin.bottom;
 
     var i = 0,
@@ -23,7 +35,7 @@
     var diagonal = d3.svg.diagonal()
         .projection(function(d) { return [d.y, d.x]; });
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("main").append("svg")
         .attr("width", width + margin.right + margin.left)
         .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -71,7 +83,7 @@
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; });
 
     nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -87,7 +99,7 @@
 
     nodeUpdate.select("circle")
         .attr("r", 4.5)
-        .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; });
 
     nodeUpdate.select("text")
         .style("fill-opacity", 1);
@@ -149,5 +161,6 @@
     update(d);
     }
 </script>
+</main>
 </body>
 </html>
