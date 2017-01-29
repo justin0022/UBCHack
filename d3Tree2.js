@@ -78,8 +78,8 @@ $( document ).ready(function() {
     nodeUpdate.select("circle")
         .attr("r", function(d) { 
             if (d.duration && d.category === "vertical") {
-                    return d.duration/75;
-                } 
+                return d.duration/4;
+            } 
             if (d.duration && d.category === "sequential") {
                 return d.duration/75;
             } 
