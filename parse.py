@@ -29,16 +29,21 @@ def parse_user_data():
 
     header_row = f.readline().split()
     for line in f:
-        print(line)
-        exit()
+        line = line.split("\t")
+        row = {}
 
+        for i, element in enumerate(line):
+            row[header_row[i]] = element.strip()
 
+        user_data.append(row)
 
-def generate_json_object(data):
+    return user_data
+
+def generate_json_object(course_data, user_data):
     
     final_dict = {}
 
-    for row in data:
+    for row in course_data:
         if row["category"] == "course":
             final_dict["course"] = row["name"]
             final_dict["element_order"] = row["element_order"]
@@ -85,19 +90,67 @@ def generate_json_object(data):
             vertical = [ve for ve in all_verticals_flattened if ve["url_name"] == vertical_id][0]
 
             vertical["children"].append({"category": row["category"], "name": row["name"], "element_order": row["element_order"], "url_name": row["url_name"], "parent": row["parent"]})
+    
+    #puts all seq_goto and seq_next data from tracklog into an array
+    vertical_actions_list = []
+    for row in user_data:
+        if row["event_type"] == "seq_goto" or row["event_type"] == "seq_next":
+            event = row["event"]
+            event = event.replace('""', '"')
+            if event.startswith('"'):
+                event = event[1:]
+            if event.endswith('"'):
+                event = event[:-1]
+            event_dict = json.loads(event)
+
+            vertical_id = event_dict["new"]
+            target_sequential_id = event_dict["id"].split("@", 2)[2]
+            
+            vertical_actions = {}
+            vertical_actions["target_sequential_id"] = target_sequential_id
+
+            target_vertical_array = []
+            #target_vertical_array.append({"id": vertical_id, "hits", 1})
+
+            vertical_actions["target_vertical"] = target_vertical_array
+            
+            
+            
+            if not vertical_actions_list:
+                vertical_actions_list.append(vertical_actions)
+
+            for va in vertical_actions_list:
+                if va["target_sequential_id"] == target_sequential_id:
+                    
+
+                    target_vertical_array = []
+                    #target_vertical_array.append(va[target_vertical])
+
+                    # va["target_vertical"] = [{"id": target_vertical},{"hits": 0}]
+
+                else:
+                    vertical_actions_list.append(vertical_actions)
+                    
+            print vertical_actions_list
+            exit()
+    # for row in course_data:
+    #     if row["category"] == "sequential"
+
+
 
     json_obj = json.dumps(final_dict)
 
     fout = open("data.json", "w")
     fout.write(json_obj)
-    print(json_obj)
+    # print(json_obj)
 
 
 def main():
 
     course_structure = parse_course_structure()
-
-    generate_json_object(course_structure)
+    user_data = parse_user_data()
+    
+    generate_json_object(course_structure, user_data)
 
 
 
