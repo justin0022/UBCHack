@@ -11,17 +11,28 @@ def parse_event_data(verticals_dict):
     # stores the number of times a vertical gets a "hit" in list of dictionaries,
     # i.e. [{"vertical_id": a7315890a40a4877913564af13fcdf5e", "hits": 5},
     #       {"vertical_id": f17a1fbcc2234c33b74dca3fdc341551", "hits": 5}] 
-    hit_count = {}
+    vertical_id_hit_list = []
     for user in users:
         events = users[user]
         for event in events:
             event_id = event["vertical_id"]
-            print event_id
+            #print event_id
             vertical_id = verticals_dict.get(event_id)
-            print vertical_id
+            #print vertical_id
 
-            exit()
-        # # print events
+            if not vertical_id:
+                continue
+
+            hitBool  = 0
+            for vertical_id_hit in vertical_id_hit_list:
+                if vertical_id_hit["vertical_id"] == vertical_id:
+                    vertical_id_hit["hit"] += 1
+                    hitBool = 1
+            
+            if not hitBool:
+                vertical_id_hit_list.append({"vertical_id": vertical_id, "hit": 1})
+            
+    print vertical_id_hit_list
         # exit()
 
 def parse_course_structure():
