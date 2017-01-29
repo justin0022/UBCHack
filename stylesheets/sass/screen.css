@@ -210,3 +210,7 @@ button:active {
   stroke: #2596b4;
   stroke-width: 1.5px;
 }
+svg {
+  margin-left: 50px;
+  padding-left: 100px;
+}
