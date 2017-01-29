@@ -11,8 +11,6 @@
     <script src="./d3Tree2.js"></script>
 </head>
 <body>
-    <tree1>
-    <tree2>
     <header>
         <h1>Learning Analytics Hackathon 2.0</h1>
         <div class="event-date">January 28–29, 2017</div>
@@ -20,12 +18,29 @@
     </header>
     <div class="filters">
         <h2>Filters</h2>
-        <button type="button">Engagement</button>
-        <button type="button">Time Spent</button>
+        <button type="button" onclick="showTree1()">Engagement</button>
+        <button type="button" onclick="showTree2()">Time Spent</button>
         <!--<button type="button" onclick="expandAll()">Expand All</button>-->
     </div>
+    <div><tree1 id="tree1"></div>
+    <div><tree2 id="tree2" style="display: none;"></div>
     <script>
+        function showTree1() {
+            $("#tree1").css({
+                'display': "block"
+            })
+            $("#tree2").css({
+                'display': 'none'
+            })
+        }
+        function showTree2() {
+            $("#tree1").css({
+                'display': 'none'
+            })
+            $("#tree2").css({
+                'display': "block"
+            })
+        }
     </script>
-</main>
 </body>
 </html>
