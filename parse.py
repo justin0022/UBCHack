@@ -110,7 +110,7 @@ def generate_json_object(course_data, user_data):
             vertical_actions["target_sequential_id"] = target_sequential_id
 
             target_vertical_array = []
-            target_vertical_array.append({"id": vertical_id, "hits", 1})
+            #target_vertical_array.append({"id": vertical_id, "hits", 1})
 
             vertical_actions["target_vertical"] = target_vertical_array
             
@@ -124,7 +124,7 @@ def generate_json_object(course_data, user_data):
                     
 
                     target_vertical_array = []
-                    target_vertical_array.append(va[target_vertical])
+                    #target_vertical_array.append(va[target_vertical])
 
                     # va["target_vertical"] = [{"id": target_vertical},{"hits": 0}]
 
