@@ -229,3 +229,8 @@ svg {
   stroke: #2596b4;
   stroke-width: 1.5px;
 }
+
+/* line 184, ../../sass/sass/screen.scss */
+.github {
+  text-align: center;
+}
