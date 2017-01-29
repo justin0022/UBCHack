@@ -132,28 +132,56 @@ def parse_user_data(verticals):
     pickle.dump(users, open("users.pickled", "w"))
 
 
-def parse_time_data():
+def parse_time_data(chapters_dict, verticals_dict):
     users = pickle.load(open("users.pickled", "r"))
     
-    for row in users["1"]:
-        print row
+    # for row in users["1"]:
+    #     print row
 
-    differences = [(t["time"] - s["time"]).total_seconds() for s, t in zip(users["1"], users["1"][1:])]
-    for i, d in enumerate(differences):
-        print users["1"][1:][i]["event_type"], d
+    # differences = [(t["time"] - s["time"]).total_seconds() for s, t in zip(users["1"], users["1"][1:])]
+    # for i, d in enumerate(differences):
+    #     print users["1"][1:][i]["event_type"], d
 
-    # plt.hist(differences, bins=30)
-    # plt.show()
+    # # plt.hist(differences, bins=30)
+    # # plt.show()
 
     threshold = 1800  # 30 minutes
 
-    differences_threshold = [d for d in differences if d <= threshold]
+    # differences_threshold = [d for d in zip(differences) if (d <= threshold and d > 0)]
 
 
-    plt.hist(differences_threshold, bins=30)
-    plt.show()
 
-    exit()
+    # plt.hist(differences_threshold, bins=30)
+    # plt.show()
+
+    f = open("data.json", "r").read()
+    obj = json.loads(f)
+
+    for user in users:
+        events = users[user]
+        durations = [(t["vertical_id"], (t["time"] - s["time"]).total_seconds()) for s, t in zip(events, events[1:])]
+
+        durations_thresholded = [d for d in durations if (d[1] <= threshold and d[1] > 0)]
+
+        for duration in durations_thresholded:
+            elem_id = duration[0]
+            duration_s = duration[1]
+
+            print("elem_id", elem_id)
+            vertical_id = verticals_dict[elem_id]
+            print("vertical_id", vertical_id)
+            chapter_id = chapters_dict[vertical_id]
+
+            if "duration" in obj[chapter_id][vertical_id]:
+                obj[chapter_id][vertical_id]["duration"] += duration_s
+            else:
+                obj[chapter_id][vertical_id]["duration"] = duration_s
+
+    json_obj = json.dumps(obj)
+
+    fout = open("data_with_durations.json", "w")
+    fout.write(json_obj)
+
 
 
 def generate_verticals(data):
@@ -171,6 +199,21 @@ def generate_verticals(data):
     return final_dict
 
 
+def generate_sequentials(data):
+    """
+    generates dictionary to look up chapter ID from vertical ID
+    """
+    final_dict = {}
+
+    for row in data:
+        if row["category"] == "vertical":
+            vertical_id = row["parent"]
+            final_dict[row["url_name"]] = vertical_id
+
+    print(final_dict)
+    return final_dict
+
+
 def generate_chapters(data):
     """
     generates dictionary to look up chapter ID from vertical ID
@@ -178,7 +221,7 @@ def generate_chapters(data):
     final_dict = {}
 
     for row in data:
-        if row["category"] in ["sequential"]:
+        if row["category"] == "sequential":
             chapter_id = row["parent"]
             final_dict[row["url_name"]] = chapter_id
 
@@ -224,12 +267,13 @@ def generate_json_object(data):
 
 def main():
 
-    # course_structure = parse_course_structure()
-    # verticals_dict = generate_verticals(course_structure)
-    # chapters_dict = generate_chapters(course_structure)
+    course_structure = parse_course_structure()
+    verticals_dict = generate_verticals(course_structure)
+    sequentials_dict = generate_sequentials(course_structure)
+    chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    time_data = parse_time_data()
+    parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
     
     # generate_json_object(course_structure)
 
