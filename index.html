@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learning Analytics Hackathon 2.0</title>
+    <title>Course Tree</title>
     <!--<link rel="stylesheet" href="./styles.css">-->
     <link href="stylesheets/sass/screen.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.0/d3.js"></script>
@@ -12,34 +12,76 @@
 </head>
 <body>
     <header>
-        <h1>Learning Analytics Hackathon 2.0</h1>
-        <div class="event-date">January 28–29, 2017</div>
-        <p>Justin Lee, Anh Nguyen, Shirley Yin</p>
+        <h1 class="event-title">Course Tree</h1>
+        <div class="event-subtitle">Learning Analytics Hackathon 2.0</div>
+        <div class="event-info">
+            January 28–29, 2017<br>
+            Justin Lee, Anh Nguyen, Shirley Yin
+        </div>
     </header>
-    <div class="filters">
-        <h2>Filters</h2>
-        <button type="button" onclick="showTree1()">Engagement</button>
-        <button type="button" onclick="showTree2()">Time Spent</button>
+    <main>
+    <div class="content">
+        <h2>About the visualization</h2>
+        Climate change course (linked). Description of the tree and course hierarchy/structure.
+        <h2>Filter by</h2>
+        <div class="button-wrap">
+            <button class="engagement-button active" type="button" onclick="showTree1()">Engagement</button>
+            <p>Engagement measures how many events happened on each page.</p>
+        </div>
+        <div class="button-wrap">
+            <button class="duration-button" type="button" onclick="showTree2()">Time Spent</button>
+            <p>Time spent measures how long a student spent on each page.</p>
+        </div>
         <!--<button type="button" onclick="expandAll()">Expand All</button>-->
     </div>
-    <div><tree1 id="tree1"></div>
-    <div><tree2 id="tree2" style="display: none;"></div>
+    <div class="engagement-tree"><h1 class="viz-title">Engagement</h2><tree1 id="tree1"></div>
+    <div class="duration-tree" style="display: none;"><h1 class="viz-title">Time Spent</h2><tree2 id="tree2"></div>
+    <div class="content">
+        <h2>Course Stats</h2>
+        <ul class="stats">
+            <li><span class="stat-count">11</span> Modules</li>
+            <li><span class="stat-count">58</span> Module Sections</li>
+            <li><span class="stat-count">128</span> Pages</li>
+        </ul>
+    </div>
+     <div class="content">
+        <h2>Methodology</h2> 
+        <p>Engagement measures events</p>
+        <h2>Caveats</h2> 
+        <p>Module section data is missing page load info</p>
+        <h2>Suggestions</h2> 
+        <p>something else</p>
+    </div>
+    <div class="content">
+        <h2>Tools used</h2>
+        <ul class="tools">
+            <li>d3 tree</li>
+            <li>subtlepatterns</li>
+            <li>jquery</li>
+            <li>sass</li>
+        </ul>
+    </div>
+    </main>
     <script>
         function showTree1() {
-            $("#tree1").css({
+            $(".engagement-tree").css({
                 'display': "block"
             })
-            $("#tree2").css({
+            $(".duration-tree").css({
                 'display': 'none'
             })
+            $(".duration-button").removeClass("active");
+            $(".engagement-button").addClass("active");
         }
         function showTree2() {
-            $("#tree1").css({
+            $(".engagement-tree").css({
                 'display': 'none'
             })
-            $("#tree2").css({
+            $(".duration-tree").css({
                 'display': "block"
             })
+            $(".duration-button").addClass("active");
+            $(".engagement-button").removeClass("active");
         }
     </script>
 </body>
