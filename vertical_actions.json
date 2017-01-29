@@ -1,0 +1,26 @@
+[{
+    "target_sequential_id": "c0dfcd05a113498d9817931e557bfe9e",
+    "target_vertical": [
+        {
+            "id": 1,
+            "hits": 5
+        },
+        {
+            "id": 2,
+            "hits": 12
+        }
+    ]
+},
+{
+    "target_sequential_id": "c0dfcd05a113498d9817931e557bfe8c",
+    "target_vertical": [
+        {
+            "id": 3,
+            "hits": 1
+        },
+        {
+            "id": 7,
+            "hits": 15
+        }
+    ]
+}]

@@ -91,8 +91,8 @@ def generate_json_object(course_data, user_data):
 
             vertical["children"].append({"category": row["category"], "name": row["name"], "element_order": row["element_order"], "url_name": row["url_name"], "parent": row["parent"]})
     
-
-    vertical_actions = []
+    #puts all seq_goto and seq_next data from tracklog into an array
+    vertical_actions_list = []
     for row in user_data:
         if row["event_type"] == "seq_goto" or row["event_type"] == "seq_next":
             event = row["event"]
@@ -103,12 +103,40 @@ def generate_json_object(course_data, user_data):
                 event = event[:-1]
             event_dict = json.loads(event)
 
-            target_vertical = event_dict["new"]
+            vertical_id = event_dict["new"]
             target_sequential_id = event_dict["id"].split("@", 2)[2]
+            
+            vertical_actions = {}
+            vertical_actions["target_sequential_id"] = target_sequential_id
 
-            vertical_actions.append({"vertical_number": target_vertical, "target_sequential_id": target_sequential_id})
+            target_vertical_array = []
+            target_vertical_array.append({"id": vertical_id, "hits", 1})
 
-    print vertical_actions
+            vertical_actions["target_vertical"] = target_vertical_array
+            
+            
+            
+            if not vertical_actions_list:
+                vertical_actions_list.append(vertical_actions)
+
+            for va in vertical_actions_list:
+                if va["target_sequential_id"] == target_sequential_id:
+                    
+
+                    target_vertical_array = []
+                    target_vertical_array.append(va[target_vertical])
+
+                    # va["target_vertical"] = [{"id": target_vertical},{"hits": 0}]
+
+                else:
+                    vertical_actions_list.append(vertical_actions)
+                    
+            print vertical_actions_list
+            exit()
+    # for row in course_data:
+    #     if row["category"] == "sequential"
+
+
 
     json_obj = json.dumps(final_dict)
 
