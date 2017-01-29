@@ -19,7 +19,7 @@ $( document ).ready(function() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("data.json", function(error, flare) {
+    d3.json("data_with_durations.json", function(error, flare) {
     if (error) throw error;
 
     root = flare;
