@@ -19,7 +19,7 @@ $( document ).ready(function() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("data_with_durations.json", function(error, flare) {
+    d3.json("data_with_durations_multilevel.json", function(error, flare) {
     if (error) throw error;
 
     root = flare;
@@ -76,7 +76,21 @@ $( document ).ready(function() {
         .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
     nodeUpdate.select("circle")
-        .attr("r", function(d) { return d.duration ? d.duration/100000 : 4.5})
+        .attr("r", function(d) { 
+            if (d.duration && d.category === "vertical") {
+                    return d.duration/100000;
+                } 
+            if (d.duration && d.category === "sequential") {
+                return d.duration/100000;
+            } 
+            if (d.duration && d.category === "chapter") {
+                return d.duration/100000;
+            } 
+            if (d.category === "vertical") {
+                return 1e-6;
+            }
+            else return 4.5;
+        })
         .style("fill", function(d) 
             { 
                 if (!d.duration && d.category === "vertical") {

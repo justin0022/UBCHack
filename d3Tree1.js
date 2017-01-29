@@ -19,7 +19,7 @@ $( document ).ready(function() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("data_with_vertical_hits.json", function(error, flare) {
+    d3.json("data_with_vertical_hits_multilevel.json", function(error, flare) {
     if (error) throw error;
 
     root = flare;
@@ -51,7 +51,9 @@ $( document ).ready(function() {
 
     // Update the nodes…
     var node = svg.selectAll("g.node")
-        .data(nodes, function(d) { return d.id || (d.id = ++i); });
+        .data(nodes, function(d) { 
+            return d.id || (d.id = ++i); 
+        });
 
     // Enter any new nodes at the parent's previous position.
     var nodeEnter = node.enter().append("g")
@@ -76,12 +78,28 @@ $( document ).ready(function() {
         .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
     nodeUpdate.select("circle")
-        .attr("r", function(d) { return d.hit ? Math.log(d.hit) : 4.5})
+        .attr("r", function(d) { 
+            if (d.hit && d.category === "vertical") {
+                return d.hit/7500;
+            } 
+            if (d.hit && d.category === "sequential") {
+                return d.hit/7500;
+            }
+            if (d.hit && d.category === "chapter") {
+                return d.hit/7500;
+            }
+            if (d.category === "vertical") {
+                return 1e-6;
+            }
+            else return 4.5;
+        })
+
         .style("fill", function(d) 
             { 
                 if (!d.hit && d.category === "vertical") {
                     return "#c61b00";
-                } else 
+                } 
+                else 
                 return d._children ? "#186175" : "#fff"; 
             });
        
