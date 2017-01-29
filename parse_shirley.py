@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
+from __future__ import division
 import json
 import datetime
 from collections import defaultdict
 import pickle
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 def parse_course_structure():
@@ -154,6 +155,8 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
     # plt.hist(differences_threshold, bins=30)
     # plt.show()
 
+    verticals = {}
+
     f = open("data.json", "r").read()
     obj = json.loads(f)
 
@@ -197,13 +200,19 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
             else:
                 target_vertical["duration"] = duration_s
 
-    json_obj = json.dumps(obj)
+            if target_vertical["url_name"] in verticals:
+                verticals[target_vertical["url_name"]].append(user)
+            else:
+                verticals[target_vertical["url_name"]] = [user]
 
-    fout = open("data_with_durations.json", "w")
-    fout.write(json_obj)
+    # json_obj = json.dumps(obj)
 
+    # fout = open("data_with_durations.json", "w")
+    # fout.write(json_obj)
 
-def sum_levels_time():
+    return verticals
+
+def sum_levels_time(verticals_dict):
 
     f = open("data_with_durations.json", "r").read()
     obj = json.loads(f)
@@ -211,17 +220,27 @@ def sum_levels_time():
     chapters = obj["children"]
     for chapter in chapters:
         sequentials = chapter["children"]
+        c_users = []
         for sequential in sequentials:
             verticals = sequential["children"]
-            s_durations = [v.get("duration", 0) for v in verticals]
+            s_users = []
+            for vertical in verticals:
+                v_duration = vertical.get("duration")
+                if v_duration:
+                    s_users += verticals_dict[vertical["url_name"]]
+                    vertical["total_duration"] = vertical["duration"]
+                    vertical["duration"] = vertical["duration"] / len(verticals_dict[vertical["url_name"]])
+            c_users += s_users
+            s_durations = [v.get("total_duration", 0) for v in verticals]
             s_durations_sum = sum(s_durations)
             if s_durations_sum > 0:
-                sequential["duration"] = s_durations_sum
+                sequential["total_duration"] = s_durations_sum
+                sequential["duration"] = s_durations_sum / len(set(s_users))
 
-        c_durations = [s.get("duration", 0) for s in sequentials]
+        c_durations = [s.get("total_duration", 0) for s in sequentials]
         c_durations_sum = sum(c_durations)
         if c_durations_sum > 0:
-            chapter["duration"] = c_durations_sum
+            chapter["duration"] = c_durations_sum / len(set(c_users))
 
     json_obj = json.dumps(obj)
 
@@ -339,17 +358,18 @@ def generate_json_object(data):
 
 def main():
 
-    # course_structure = parse_course_structure()
-    # verticals_dict = generate_verticals(course_structure)
-    # sequentials_dict = generate_sequentials(course_structure)
-    # chapters_dict = generate_chapters(course_structure)
+    course_structure = parse_course_structure()
+    verticals_dict = generate_verticals(course_structure)
+    sequentials_dict = generate_sequentials(course_structure)
+    chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    # parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
+    verticals = parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
     
     # generate_json_object(course_structure)
 
-    sum_levels_engagement()
+    sum_levels_time(verticals)
+    # sum_levels_engagement()
 
 
 
