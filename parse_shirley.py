@@ -4,6 +4,7 @@ import json
 import datetime
 from collections import defaultdict
 import pickle
+import matplotlib.pyplot as plt
 
 
 def parse_course_structure():
@@ -133,10 +134,26 @@ def parse_user_data(verticals):
 
 def parse_time_data():
     users = pickle.load(open("users.pickled", "r"))
-    for user in users:
-        print(user)
-        print(users[user])
-        exit()
+    
+    for row in users["1"]:
+        print row
+
+    differences = [(t["time"] - s["time"]).total_seconds() for s, t in zip(users["1"], users["1"][1:])]
+    for i, d in enumerate(differences):
+        print users["1"][1:][i]["event_type"], d
+
+    # plt.hist(differences, bins=30)
+    # plt.show()
+
+    threshold = 1800  # 30 minutes
+
+    differences_threshold = [d for d in differences if d <= threshold]
+
+
+    plt.hist(differences_threshold, bins=30)
+    plt.show()
+
+    exit()
 
 
 def generate_verticals(data):
@@ -155,6 +172,9 @@ def generate_verticals(data):
 
 
 def generate_chapters(data):
+    """
+    generates dictionary to look up chapter ID from vertical ID
+    """
     final_dict = {}
 
     for row in data:
@@ -204,12 +224,12 @@ def generate_json_object(data):
 
 def main():
 
-    course_structure = parse_course_structure()
-    verticals_dict = generate_verticals(course_structure)
-    chapters_dict = generate_chapters(course_structure)
+    # course_structure = parse_course_structure()
+    # verticals_dict = generate_verticals(course_structure)
+    # chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    # time_data = parse_time_data()
+    time_data = parse_time_data()
     
     # generate_json_object(course_structure)
 
