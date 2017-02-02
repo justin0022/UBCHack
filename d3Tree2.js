@@ -19,6 +19,14 @@ $( document ).ready(function() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    //initialize the tip for on hover
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .html(function(d) { 
+            return "<strong>Duration:</strong> <span style='color: white;'>" + Math.ceil(d.duration) + "<strong> seconds</strong></span>"; 
+        });
+    svg.call(tip);
+
     d3.json("data_with_durations_multilevel.json", function(error, flare) {
     if (error) throw error;
 
@@ -61,7 +69,9 @@ $( document ).ready(function() {
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; });
+        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })

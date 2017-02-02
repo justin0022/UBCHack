@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.0/d3.js"></script>
     <script src="./node_modules/d3-tip/index.js"></script>
+    <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
     <link href="stylesheets/sass/screen.css" rel="stylesheet" type="text/css" />
     <script src="./d3Tree1.js"></script>
     <script src="./d3Tree2.js"></script>
@@ -25,8 +26,8 @@
         This tree represents the structure and hierarchy of the course <a href="https://courses.edx.org/courses/course-v1:UBCx+Climate1x+3T2016/info">Climate Change: The Science</a>.
         <h2>Filter by</h2>
         <div class="button-wrap">
-            <button class="engagement-button active" type="button" onclick="showTree1()">Engagement</button>
-            <p>Engagement measures how many events happened on each page. Bigger circles means more engagement, and no circles means there was no data.</p>
+            <button class="engagement-button active" type="button" onclick="showTree1()">Events</button>
+            <p>Events measures how many events happened on each page. Bigger circles means more Events, and no circles means there was no data.</p>
         </div>
         <div class="button-wrap">
             <button class="duration-button" type="button" onclick="showTree2()">Time Spent</button>
@@ -34,7 +35,7 @@
         </div>
         <!--<button type="button" onclick="expandAll()">Expand All</button>-->
     </div>
-    <div class="engagement-tree"><h1 class="viz-title">Engagement</h2><tree1 id="tree1"></div>
+    <div class="engagement-tree"><h1 class="viz-title">Events</h2><tree1 id="tree1"></div>
     <div class="duration-tree" style="display: none;"><h1 class="viz-title">Time Spent</h2><tree2 id="tree2"></div>
     <div class="content">
         <h2>Course Stats</h2>
@@ -52,7 +53,7 @@
                 <li>One containing user events (from tracklog_cleaned.tsv)</li>
             </ul>
             <p>We mainly needed the timestamp, user ID, and vertical/element ID.</p>
-            <p>For the <strong>engagement</strong> tree, we counted how many events happened on each page/section/module. Events include interactions with videos (eg. playing, pausing, skipping) and quiz problems (eg. checking, saving). </p>
+            <p>For the <strong>Events</strong> tree, we counted how many events happened on each page/section/module. Events include interactions with videos (eg. playing, pausing, skipping) and quiz problems (eg. checking, saving). </p>
             <p>For the <strong>time spent</strong> tree, we found the average time spent on each page/section/module by taking the sum of time deltas between consecutive events and dividing that by the number of users. We used a 30 minute threshold to account for idling users, which was determined by plotting a histogram of time durations.</p>
             <p>We didn't include the navigation elements (page_close, seq_goto, seq_next, seq_prev).</p>
         <h2>Caveats</h2> 

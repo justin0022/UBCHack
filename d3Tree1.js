@@ -18,6 +18,14 @@ $( document ).ready(function() {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    //initialize the tip for on hover
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .html(function(d) { 
+            return "<strong>Events:</strong> <span style='color: white;'>" + d.hit + "</span>"; 
+        });
+    svg.call(tip);
 
     d3.json("data_with_vertical_hits_multilevel.json", function(error, flare) {
     if (error) throw error;
@@ -63,7 +71,9 @@ $( document ).ready(function() {
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; });
+        .style("fill", function(d) { return d._children ? "#186175" : "#fff"; })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -101,10 +111,11 @@ $( document ).ready(function() {
                 else 
                 return d._children ? "#186175" : "#fff"; 
             });
-
+    
     nodeUpdate.select("text")
         .style("fill-opacity", 1);
-
+    
+        
     // Transition exiting nodes to the parent's new position.
     var nodeExit = node.exit().transition()
         .duration(duration)
@@ -161,7 +172,6 @@ $( document ).ready(function() {
         }
         update(d);
     }
-    tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
-    svg.call(tip);
+    
     
 });
