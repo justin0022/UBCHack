@@ -93,7 +93,6 @@ $( document ).ready(function() {
             }
             else return 4.5;
         })
-
         .style("fill", function(d) 
             { 
                 if (!d.hit && d.category === "vertical") {
@@ -102,7 +101,7 @@ $( document ).ready(function() {
                 else 
                 return d._children ? "#186175" : "#fff"; 
             });
-       
+
     nodeUpdate.select("text")
         .style("fill-opacity", 1);
 
@@ -146,11 +145,11 @@ $( document ).ready(function() {
 
     // Stash the old positions for transition.
     nodes.forEach(function(d) {
-        d.x0 = d.x;
-        d.y0 = d.y;
-    });
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
     }
-
+   
     // Toggle children on click.
     function click(d) {
         if (d.children) {
@@ -162,13 +161,6 @@ $( document ).ready(function() {
         }
         update(d);
     }
-    // function expandAll() {
-    //    $(".node").d3Click();
-    // }
-    // jQuery.fn.d3Click = function () {
-    //     this.each(function (i, e) {
-    //         var evt = new MouseEvent("click");
-    //         e.dispatchEvent(evt);
-    //     });
-    // };
+    tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+    svg.call(tip);
 });
