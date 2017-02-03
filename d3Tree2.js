@@ -168,13 +168,4 @@ $( document ).ready(function() {
         }
         update(d);
     }
-    // function expandAll() {
-    //    $(".node").d3Click();
-    // }
-    // jQuery.fn.d3Click = function () {
-    //     this.each(function (i, e) {
-    //         var evt = new MouseEvent("click");
-    //         e.dispatchEvent(evt);
-    //     });
-    // };
 });
