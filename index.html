@@ -33,10 +33,15 @@
             <button class="duration-button" type="button" onclick="showTree2()">Time Spent</button>
             <p>Time spent measures how long a student spent on each page. Bigger circles means more time was spent on the page, and no circles means there was no data.</p>
         </div>
+        <div class="button-wrap">
+            <button class="left-button" type="button" onclick="showTree3()">Students Leaving</button>
+            <p>Number of students who left.</p>
+        </div>
         <!--<button type="button" onclick="expandAll()">Expand All</button>-->
     </div>
     <div class="engagement-tree"><h1 class="viz-title">Events</h2><tree1 id="tree1"></div>
     <div class="duration-tree" style="display: none;"><h1 class="viz-title">Time Spent</h2><tree2 id="tree2"></div>
+    <div class="left-tree" style="display: none;"><h1 class="viz-title">Time Spent</h2><tree2 id="tree3"></div>
     <div class="content">
         <h2>Course Stats</h2>
         <ul class="stats">
@@ -83,7 +88,11 @@
             $(".duration-tree").css({
                 'display': 'none'
             })
+            $(".left-tree").css({
+                'display': "none"
+            })
             $(".duration-button").removeClass("active");
+            $(".left-button").removeClass("active");
             $(".engagement-button").addClass("active");
         }
         function showTree2() {
@@ -93,10 +102,27 @@
             $(".duration-tree").css({
                 'display': "block"
             })
+             $(".left-tree").css({
+                'display': "none"
+            })
             $(".duration-button").addClass("active");
             $(".engagement-button").removeClass("active");
+            $(".left-button").removeClass("active");
         }
-         
+        function showTree3() {
+            $(".engagement-tree").css({
+                'display': 'none'
+            })
+            $(".duration-tree").css({
+                'display': 'none'
+            })
+            $(".left-tree").css({
+                'display': "block"
+            })
+            $(".left-button").addClass("active");
+            $(".engagement-button").removeClass("active");
+            $(".duration-button").removeClass("active");
+        }
     </script>
 </body>
 </html>

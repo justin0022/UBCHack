@@ -123,7 +123,7 @@ header {
 /* line 103, ../../sass/sass/screen.scss */
 .button-wrap {
   float: left;
-  width: calc(50% - 20px);
+  width: calc(33.33333% - 20px);
   margin-top: 10px;
 }
 /* line 107, ../../sass/sass/screen.scss */
