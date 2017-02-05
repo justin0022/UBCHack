@@ -212,6 +212,7 @@ def parse_time_data(chapters_dict, sequentials_dict, verticals_dict):
 
     return verticals
 
+
 def sum_levels_time(verticals_dict):
 
     f = open("data_with_durations.json", "r").read()
@@ -273,6 +274,176 @@ def sum_levels_engagement():
 
     fout = open("data_with_vertical_hits_multilevel.json", "w")
     fout.write(json_obj)
+
+
+def parse_attrition_data(chapters_dict, sequentials_dict, verticals_dict):
+    f = open("tracklog_cleaned.tsv", "r")
+
+    header_row = f.readline().split()
+
+    users = defaultdict(list)
+
+    for line in f:
+        line = line.split("\t")
+        row = {}
+
+        for i, element in enumerate(line):
+            row[header_row[i]] = element.strip()
+
+        user_id = row["user_id"]
+        time = datetime.datetime.strptime(row["time"], '%Y-%m-%dT%XZ')
+        event_type = row["event_type"]
+        if ("video" in row["event_type"]) or ("speed" in row["event_type"]):
+
+            event = row["event"].replace('""', '"')
+            if event.startswith('"'):
+                event = event[1:]
+            if event.endswith('"'):
+                event = event[:-1]
+            event = json.loads(event)
+
+            elem_id = str(event["id"])
+
+            # handle broken IDs in dataset
+            if elem_id == "05590450559045b545844eaaa561fe09391213f":
+                elem_id = "0559045b545844eaaa561fe09391213f"
+            elif elem_id == "97055169705516d01b5406c82d0ef9ec6eacce1":
+                continue
+            # if len(elem_id) == 39:
+            #     print(elem_id)
+
+
+            vertical_id = verticals_dict.get(elem_id)
+            if not vertical_id:
+                # print("vertical_id", vertical_id, "elem_id", elem_id)
+                continue
+
+            if not users.get(user_id):
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+            if users.get(user_id) and time > users.get(user_id)["time"]:
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+
+
+        elif row["event_type"] == "problem_show":
+            event = row["event"].replace('""', '"')
+            if event.startswith('"'):
+                event = event[1:]
+            if event.endswith('"'):
+                event = event[:-1]
+            event = json.loads(event)
+            elem_id = str(event["problem"].split("@")[-1])
+
+
+            vertical_id = verticals_dict.get(elem_id)
+            if not vertical_id:
+                continue
+
+            if not users.get(user_id):
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+            if users.get(user_id) and time > users.get(user_id)["time"]:
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+            
+        elif "problem" in row["event_type"]:
+            if row["event"] == "NA":
+                continue
+            elem_id = row["event"].split("input_")[1].split("_")[0]
+
+            vertical_id = verticals_dict.get(elem_id)
+            if not vertical_id:
+                continue
+
+            if not users.get(user_id):
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+            if users.get(user_id) and time > users.get(user_id)["time"]:
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+        elif "transcript" in row["event_type"]:
+            event = row["event"].replace('""', '"')
+            if event.startswith('"'):
+                event = event[1:]
+            if event.endswith('"'):
+                event = event[:-1]
+            event = json.loads(event)
+
+            elem_id = str(event["id"])
+
+            vertical_id = verticals_dict.get(elem_id)
+            if not vertical_id:
+                continue
+
+            if not users.get(user_id):
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+            if users.get(user_id) and time > users.get(user_id)["time"]:
+                users[user_id] = {"time": time, "event_type": event_type, "vertical_id": vertical_id}
+
+    print("users", users)
+    verticals_for_output = {}
+
+    f = open("data.json", "r").read()
+    obj = json.loads(f)
+
+    for user in users:
+        print("users[user]", users[user])
+        vertical_id = users[user]["vertical_id"]
+
+        sequential_id = sequentials_dict.get(vertical_id)
+        if not sequential_id:
+            # print("sequential_id", sequential_id, "vertical_id", vertical_id, "elem_id", elem_id)
+            continue
+
+        chapter_id = chapters_dict.get(sequential_id)
+        if not chapter_id:
+            # print("chapter_id", chapter_id, "sequential_id", sequential_id, "vertical_id", vertical_id, "element id", elem_id)
+            continue
+
+        chapters_list = obj["children"]
+        target_chapter = [chapter for chapter in chapters_list if chapter["url_name"] == chapter_id][0]
+
+        sequentials_list = target_chapter["children"]
+        target_sequential = [s for s in sequentials_list if s["url_name"] == sequential_id][0]
+
+        verticals_list = target_sequential["children"]
+        target_vertical = [v for v in verticals_list if v["url_name"] == vertical_id][0]
+
+        if "last_event" in target_vertical:
+            target_vertical["last_event"] += 1
+            print("target_vertical", target_vertical)
+        else:
+            target_vertical["last_event"] = 1
+            print("target_vertical", target_vertical)
+
+        if target_vertical["url_name"] in verticals_for_output:
+            verticals_for_output[target_vertical["url_name"]].append(user)
+        else:
+            verticals_for_output[target_vertical["url_name"]] = [user]
+
+    print(verticals_for_output, "verticals_for_output")
+
+    chapters = obj["children"]
+    for chapter in chapters:
+        sequentials = chapter["children"]
+        for sequential in sequentials:
+            verticals = sequential["children"]
+            for vertical in verticals:
+                v_last_event = verticals_for_output.get("last_event")
+                print("v_last_event", v_last_event)
+                if v_last_event:
+                    vertical["last_event"] = v_last_event
+            s_last_event = [v.get("last_event", 0) for v in verticals]
+            s_last_event_sum = sum(s_last_event)
+            if s_last_event_sum > 0:
+                sequential["last_event"] = s_last_event_sum
+
+        c_last_event = [s.get("last_event", 0) for s in sequentials]
+        c_last_event_sum = sum(c_last_event)
+        if c_last_event_sum > 0:
+            chapter["last_event"] = c_last_event_sum
+
+    json_obj = json.dumps(obj)
+
+    fout = open("data_with_last_events.json", "w")
+    fout.write(json_obj)
+
+    # pickle.dump(users, open("users_attrition.pickled", "w"))
 
 
 def generate_verticals(data):
@@ -364,11 +535,11 @@ def main():
     chapters_dict = generate_chapters(course_structure)
     
     # parse_user_data(verticals_dict)
-    verticals = parse_time_data(chapters_dict, sequentials_dict, verticals_dict)
+    parse_attrition_data(chapters_dict, sequentials_dict, verticals_dict)
     
     # generate_json_object(course_structure)
 
-    sum_levels_time(verticals)
+    # sum_levels_time(verticals)
     # sum_levels_engagement()
 
 
