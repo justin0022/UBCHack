@@ -23,7 +23,6 @@ $( document ).ready(function() {
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .html(function(d) { 
-            // return "<strong>Duration:</strong> <span style='color: white;'>" + Math.ceil(d.duration) + "<strong> seconds</strong></span>"; 
             return getTime(d);
         });
     svg.call(tip);
@@ -188,7 +187,6 @@ $( document ).ready(function() {
     }
     function getTime(d) {
         var timeObject = secondsToTime(d.duration);
-        console.log(timeObject);
         if (!timeObject.h) {
             return "<strong>Duration:</strong> <span style='color: white;'>" + timeObject.m + "<strong> mins </strong></span>" + timeObject.s + "<strong> s</strong></span>";
         }
