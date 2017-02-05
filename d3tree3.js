@@ -23,11 +23,11 @@ $( document ).ready(function() {
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .html(function(d) { 
-            return "<strong>Events:</strong> <span style='color: white;'>" + d.hit + "</span>"; 
+            return "<strong>Students:</strong> <span style='color: white;'>" + d.last_event + "</span>"; 
         });
     svg.call(tip);
 
-    d3.json("data_with_vertical_hits_multilevel.json", function(error, flare) {
+    d3.json("data_with_last_events.json", function(error, flare) {
     if (error) throw error;
 
     root = flare;
@@ -89,14 +89,14 @@ $( document ).ready(function() {
 
     nodeUpdate.select("circle")
         .attr("r", function(d) { 
-            if (d.hit && d.category === "vertical") {
-                return d.hit/2000;
+            if (d.last_event && d.category === "vertical") {
+                return d.last_event/10;
             } 
-            if (d.hit && d.category === "sequential") {
-                return d.hit/2000;
+            if (d.last_event && d.category === "sequential") {
+                return d.last_event/10;
             }
-            if (d.hit && d.category === "chapter") {
-                return d.hit/6000;
+            if (d.last_event && d.category === "chapter") {
+                return d.last_event/30;
             }
             if (d.category === "vertical" || d.category === "sequential" || d.category === "chapter") {
                 return 1e-6;
@@ -105,7 +105,7 @@ $( document ).ready(function() {
         })
         .style("fill", function(d) 
             { 
-                if (!d.hit && d.category === "vertical") {
+                if (!d.last_event && d.category === "vertical") {
                     return "#c61b00";
                 } 
                 else 
