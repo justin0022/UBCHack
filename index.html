@@ -35,7 +35,7 @@
         </div>
         <div class="button-wrap">
             <button class="left-button" type="button" onclick="showTree3()">Students Leaving</button>
-            <p>Number of students who left.</p>
+            <p>Number of students whose last event occurred on each page.</p>
         </div>
         <!--<button type="button" onclick="expandAll()">Expand All</button>-->
     </div>
@@ -60,6 +60,7 @@
             <p>We mainly needed the timestamp, user ID, and vertical/element ID.</p>
             <p>For the <strong>Events</strong> tree, we counted how many events happened on each page/section/module. Events include interactions with videos (eg. playing, pausing, skipping) and quiz problems (eg. checking, saving). </p>
             <p>For the <strong>time spent</strong> tree, we found the average time spent on each page/section/module by taking the sum of time deltas between consecutive events and dividing that by the number of users. We used a 30 minute threshold to account for idling users, which was determined by plotting a histogram of time durations.</p>
+            <p>For the <strong>Students Leaving</strong> tree, we counted the number of students whose last event occured in each page/section/module.</p>
             <p>We didn't include the navigation elements (page_close, seq_goto, seq_next, seq_prev).</p>
         <h2>Caveats</h2> 
         <p><strong>Missing data:</strong> Most notably, we are missing page load data. While there is navigation event data (eg. moving between pages via the navigation bar), this data is flawed and difficult to parse because it does not contain page IDs. Also, the data does not capture navigation between sections. As a result, the first and last pages in each section would be underrepresented.</p>
