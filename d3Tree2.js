@@ -23,7 +23,7 @@ $( document ).ready(function() {
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .html(function(d) { 
-            return "<strong>Duration:</strong> <span style='color: white;'>" + Math.ceil(d.duration) + "<strong> seconds</strong></span>"; 
+            return getTime(d);
         });
     svg.call(tip);
 
@@ -167,5 +167,32 @@ $( document ).ready(function() {
             d._children = null;
         }
         update(d);
+    }
+    function secondsToTime(secs) {
+        secs = Math.round(secs);
+        var hours = Math.floor(secs / (60 * 60));
+
+        var divisor_for_minutes = secs % (60 * 60);
+        var minutes = Math.floor(divisor_for_minutes / 60);
+
+        var divisor_for_seconds = divisor_for_minutes % 60;
+        var seconds = Math.ceil(divisor_for_seconds);
+
+        var obj = {
+            "h": hours,
+            "m": minutes,
+            "s": seconds
+        };
+        return obj;
+    }
+    function getTime(d) {
+        var timeObject = secondsToTime(d.duration);
+        if (!timeObject.h) {
+            return "<strong>Duration:</strong> <span style='color: white;'>" + timeObject.m + "<strong> mins </strong></span>" + timeObject.s + "<strong> s</strong></span>";
+        }
+        if (!timeObject.m && !timeObject.h) {
+            return "<strong>Duration:</strong> <span style='color: white;'>" + timeObject.s + "<strong> s</strong></span>";
+        }
+         return "<strong>Duration:</strong> <span style='color: white;'>" + timeObject.h + "<strong> h </strong></span>" + timeObject.m + "<strong> mins </strong></span>" + timeObject.s + "<strong> s</strong></span>";
     }
 });
